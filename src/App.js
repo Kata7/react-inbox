@@ -22,6 +22,7 @@ class App extends Component {
         for (let message in respJson) {
           let currentMessage= respJson[message]
           currentMessage['selected'] = false
+          currentMessage['expanded'] = false
         }
         this.setState({
             messages: respJson,
@@ -36,7 +37,6 @@ class App extends Component {
   render() {
 
     this.getData()
-    console.log(this.state)
 
     return (
       <div className="container">
