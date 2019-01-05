@@ -33,7 +33,7 @@ class App extends Component {
     this.getData()
 
     return (
-      <div className="App">
+      <div className="container">
         <h1>{ this.state.fetched ? "done":"loading..."}</h1>
         <Toolbar />
         <Compose />
