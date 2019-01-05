@@ -11,10 +11,11 @@ function Messages ({messageList = []}){
 }
 
 function Message ({content}) {
-  // content: body, id, labels[], subject, starred?, selected?, read?
+  // content: body, id, labels[], subject, starred?, selected?, read?, expanded?
   let readStatus = content.read ? "read" : "unread"
   let selectedStatus = content.selected ? "selected" : ""
   let starStatus = content.starred ? "fa-star" : "fa-star-o"
+  
   let expandMessage = content.expanded ? <Expand text={content.body}/> : ""
 
   let tagDisplay = content.labels.map(label => <Tag text={label} />)
