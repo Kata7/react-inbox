@@ -18,6 +18,11 @@ class App extends Component {
       fetch(getUrl)
       .then(response => response.json())
       .then((respJson) => {
+
+        for (let message in respJson) {
+          let currentMessage= respJson[message]
+          currentMessage['selected'] = false
+        }
         this.setState({
             messages: respJson,
             fetched: true
@@ -31,6 +36,7 @@ class App extends Component {
   render() {
 
     this.getData()
+    console.log(this.state)
 
     return (
       <div className="container">
