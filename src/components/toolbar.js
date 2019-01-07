@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Toolbar() {
+function Toolbar({toggleCompose}) {
   
   return (
     <div className="row toolbar">
@@ -10,7 +10,7 @@ function Toolbar() {
           unread messages
         </p>
 
-        <a className="btn btn-danger">
+        <a className="btn btn-danger" href="/#" onClick={toggleCompose}>
           <i className="fa fa-plus"></i>
         </a>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Messages ({messageList = []}){
-  let messageDisplay = messageList.map(message => <Message id={message.id} content={message}/>)
+function Messages ({messageList = [], toggleExpand}){
+  let messageDisplay = messageList.map(message => <Message id={message.id} content={message} key={`message ${message.id}`} toggleExpand={toggleExpand}/>)
 
   return (
     <div>
@@ -10,7 +10,7 @@ function Messages ({messageList = []}){
   )
 }
 
-function Message ({content}) {
+function Message ({content, toggleExpand}) {
   // content: body, id, labels[], subject, starred?, selected?, read?, expanded?
   let readStatus = content.read ? "read" : "unread"
   let selectedStatus = content.selected ? "selected" : ""
@@ -18,8 +18,7 @@ function Message ({content}) {
   
   let expandMessage = content.expanded ? <Expand text={content.body}/> : ""
 
-  let tagDisplay = content.labels.map(label => <Tag text={label} />)
-
+  let tagDisplay = content.labels.map((label, index) => <Tag text={label} key={`message ${content.id} tag ${index}`}/>)
 
   return (
     <div>
@@ -36,7 +35,7 @@ function Message ({content}) {
         </div>
         <div className="col-xs-11">
           {tagDisplay}
-          <a href="#">{content.subject}</a>
+          <a href="/#" className={content.id} onClick={toggleExpand}>{content.subject}</a>
         </div>
       </div>
       {expandMessage}
@@ -46,8 +45,8 @@ function Message ({content}) {
 
 function Expand ({text}) {
   return (
-    <div class="row message-body">
-      <div class="col-xs-11 col-xs-offset-1">
+    <div className="row message-body">
+      <div className="col-xs-11 col-xs-offset-1">
         {text}
       </div>
     </div>
