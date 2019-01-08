@@ -33,7 +33,7 @@ function Message ({content, toggleExpand, toggleSelect, toggleStarred}) {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              <input type="checkbox" onClick={toggleSelect} id={`checkbox${content.id}`} checked={content.selected}/>
+              <input type="checkbox" onChange={toggleSelect} id={`checkbox${content.id}`} checked={content.selected}/>
             </div>
             <div className="col-xs-2">
               <i className={`star fa ${starStatus}`} id={`star${content.id}`} onClick={toggleStarred}></i>
@@ -42,7 +42,7 @@ function Message ({content, toggleExpand, toggleSelect, toggleStarred}) {
         </div>
         <div className="col-xs-11">
           {tagDisplay}
-          <a href="/#" className={content.id} onClick={toggleExpand}>{content.subject}</a>
+          <a href="/#" id={`subject${content.id}`} onClick={toggleExpand}>{content.subject}</a>
         </div>
       </div>
       {expandMessage}

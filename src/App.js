@@ -13,6 +13,8 @@ class App extends Component {
     this.toggleCompose = this.toggleCompose.bind(this)
     this.toggleSelect = this.toggleSelect.bind(this)
     this.toggleStarred = this.toggleStarred.bind(this)
+    this.markSelectedRead = this.markSelectedRead.bind(this)
+    this.markSelectedUnRead = this.markSelectedUnRead.bind(this)
 
     this.state = {
       fetched: false,
@@ -53,7 +55,8 @@ class App extends Component {
 
   toggleExpand(e) {
     e.preventDefault()
-    let index = e.target.className - 1
+    // id formatted as "subject7"
+    let index = e.target.id[7] - 1
     let newState = this.state
     newState.messages[index].expanded = !newState.messages[index].expanded
     newState.messages[index].read = true
@@ -83,6 +86,27 @@ class App extends Component {
     this.setState(newState)
   }
 
+  markSelectedRead(e) {
+    let newState = this.state
+    newState.messages.forEach(message => {
+      if(message.selected) {
+        message.read = true
+      }
+    })
+    this.setState(newState)
+  }
+
+  markSelectedUnRead(e) {
+    let newState = this.state
+    newState.messages.forEach(message => {
+      if(message.selected) {
+        message.read = false
+      }
+    })
+    this.setState(newState)
+
+  }
+
 
   render() {
 
@@ -92,6 +116,8 @@ class App extends Component {
         <Toolbar 
           messageList={this.state.messages} 
           toggleCompose={this.toggleCompose}
+          markSelectedRead={this.markSelectedRead}
+          markSelectedUnRead={this.markSelectedUnRead}
         />
         {this.state.compose ? 
           <Compose 
