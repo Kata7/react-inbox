@@ -11,15 +11,16 @@ class App extends Component {
     super(props)
     this.toggleExpand = this.toggleExpand.bind(this)
     this.toggleCompose = this.toggleCompose.bind(this)
+    this.toggleSelectAll = this.toggleSelectAll.bind(this)
     this.toggleSelect = this.toggleSelect.bind(this)
     this.toggleStarred = this.toggleStarred.bind(this)
     this.markSelectedRead = this.markSelectedRead.bind(this)
     this.markSelectedUnRead = this.markSelectedUnRead.bind(this)
 
     this.state = {
+      compose: false,
       fetched: false,
-      messages: [],
-      compose: false
+      messages: []
     }
   }
 
@@ -70,6 +71,10 @@ class App extends Component {
     this.setState(newState)
   }
 
+  toggleSelectAll(e) {
+    let newState = this.state
+  }
+
   toggleSelect(e) {
     // id formatted as "checkbox8"
     let index = e.target.id[8] - 1
@@ -86,7 +91,7 @@ class App extends Component {
     this.setState(newState)
   }
 
-  markSelectedRead(e) {
+  markSelectedRead() {
     let newState = this.state
     newState.messages.forEach(message => {
       if(message.selected) {
@@ -96,7 +101,7 @@ class App extends Component {
     this.setState(newState)
   }
 
-  markSelectedUnRead(e) {
+  markSelectedUnRead() {
     let newState = this.state
     newState.messages.forEach(message => {
       if(message.selected) {
@@ -104,7 +109,6 @@ class App extends Component {
       }
     })
     this.setState(newState)
-
   }
 
 

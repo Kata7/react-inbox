@@ -3,6 +3,21 @@ import React from 'react';
 function Toolbar({toggleCompose, messageList, markSelectedRead, markSelectedUnRead}) {
 
   const unreadCount = messageList.filter(message => message.read === false).length
+  const messageCount = messageList.length
+  const selectedCount = messageList.filter(message => message.selected === true).length
+  let selectionDisplay
+  let buttonDisplay
+
+  if (messageCount === selectedCount) {
+    selectionDisplay = "fa-check-square-o"
+    buttonDisplay = false
+  } else if (selectedCount > 0) {
+    selectionDisplay = "fa-minus-square-o"
+    buttonDisplay = false
+  } else {
+    selectionDisplay = "fa-square-o"
+    buttonDisplay = true
+  }
   
   return (
     <div className="row toolbar">
@@ -17,12 +32,12 @@ function Toolbar({toggleCompose, messageList, markSelectedRead, markSelectedUnRe
         </a>
 
         <button className="btn btn-default">
-          <i className="fa fa-minus-square-o"></i>
+          <i className={`fa ${selectionDisplay}`}></i>
         </button>
 
-        <button className="btn btn-default" onClick={markSelectedRead}>Mark As Read</button>
+        <button className="btn btn-default" onClick={markSelectedRead} disabled={buttonDisplay}>Mark As Read</button>
 
-        <button className="btn btn-default" onClick={markSelectedUnRead}>Mark As Unread</button>
+        <button className="btn btn-default" onClick={markSelectedUnRead} disabled={buttonDisplay}>Mark As Unread</button>
 
         <select className="form-control label-select">
           <option>Apply label</option>
