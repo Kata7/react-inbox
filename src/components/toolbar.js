@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Toolbar({toggleCompose, messageList, markSelectedRead, markSelectedUnRead}) {
+function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead, markSelectedUnRead}) {
 
   const unreadCount = messageList.filter(message => message.read === false).length
   const messageCount = messageList.length
@@ -31,7 +31,7 @@ function Toolbar({toggleCompose, messageList, markSelectedRead, markSelectedUnRe
           <i className="fa fa-plus"></i>
         </a>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={toggleSelectAll}>
           <i className={`fa ${selectionDisplay}`}></i>
         </button>
 
@@ -39,21 +39,21 @@ function Toolbar({toggleCompose, messageList, markSelectedRead, markSelectedUnRe
 
         <button className="btn btn-default" onClick={markSelectedUnRead} disabled={buttonDisplay}>Mark As Unread</button>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select" disabled={buttonDisplay}>
           <option>Apply label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select" disabled={buttonDisplay}>
           <option>Remove label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" disabled={buttonDisplay}>
           <i className="fa fa-trash-o"></i>
         </button>
       </div>

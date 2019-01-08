@@ -71,8 +71,16 @@ class App extends Component {
     this.setState(newState)
   }
 
-  toggleSelectAll(e) {
+  toggleSelectAll() {
     let newState = this.state
+    let selectedCount = newState.messages.filter(message => message.selected === true).length
+
+    if (selectedCount > 0) {
+      newState.messages.forEach(message => message.selected = false)
+    } else {
+      newState.messages.forEach(message => message.selected = true)
+    }
+    this.setState(newState)
   }
 
   toggleSelect(e) {
@@ -120,6 +128,7 @@ class App extends Component {
         <Toolbar 
           messageList={this.state.messages} 
           toggleCompose={this.toggleCompose}
+          toggleSelectAll={this.toggleSelectAll}
           markSelectedRead={this.markSelectedRead}
           markSelectedUnRead={this.markSelectedUnRead}
         />
