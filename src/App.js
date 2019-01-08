@@ -56,6 +56,7 @@ class App extends Component {
     let index = e.target.className - 1
     let newState = this.state
     newState.messages[index].expanded = !newState.messages[index].expanded
+    newState.messages[index].read = true
     this.setState(newState)
   }
 
