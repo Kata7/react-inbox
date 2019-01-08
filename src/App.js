@@ -69,7 +69,7 @@ class App extends Component {
     return (
       <div className="container">
         <h1>{ this.state.fetched ? "done":"loading..."}</h1>
-        <Toolbar toggleCompose={this.toggleCompose}/>
+        <Toolbar messageList={this.state.messages} toggleCompose={this.toggleCompose}/>
         {this.state.compose ? <Compose status={this.state.compose}/>:""}
         <Messages messageList={this.state.messages} toggleExpand={this.toggleExpand}/>
       </div>

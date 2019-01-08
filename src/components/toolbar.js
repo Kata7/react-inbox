@@ -1,12 +1,14 @@
 import React from 'react';
 
-function Toolbar({toggleCompose}) {
+function Toolbar({toggleCompose, messageList}) {
+
+  const unreadCount = messageList.filter(message => message.read === false).length
   
   return (
     <div className="row toolbar">
       <div className="col-md-12">
         <p className="pull-right">
-          <span className="badge badge">2</span>
+          <span className="badge badge">{unreadCount}</span>
           unread messages
         </p>
 
