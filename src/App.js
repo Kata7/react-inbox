@@ -11,6 +11,9 @@ class App extends Component {
     super(props)
     this.toggleExpand = this.toggleExpand.bind(this)
     this.toggleCompose = this.toggleCompose.bind(this)
+    this.toggleSelect = this.toggleSelect.bind(this)
+    this.toggleStarred = this.toggleStarred.bind(this)
+
     this.state = {
       fetched: false,
       messages: [],
@@ -63,15 +66,42 @@ class App extends Component {
     this.setState(newState)
   }
 
+  toggleSelect(e) {
+    // id formatted as "checkbox8"
+    let index = e.target.id[8] - 1
+    let newState = this.state
+    newState.messages[index].selected = !newState.messages[index].selected
+    this.setState(newState)
+  }
+
+  toggleStarred(e) {
+    // id formatted as "star4"
+    let index = e.target.id[4] - 1
+    let newState = this.state
+    newState.messages[index].starred = !newState.messages[index].starred
+    this.setState(newState)
+  }
+
 
   render() {
 
     return (
       <div className="container">
         <h1>{ this.state.fetched ? "done":"loading..."}</h1>
-        <Toolbar messageList={this.state.messages} toggleCompose={this.toggleCompose}/>
-        {this.state.compose ? <Compose status={this.state.compose}/>:""}
-        <Messages messageList={this.state.messages} toggleExpand={this.toggleExpand}/>
+        <Toolbar 
+          messageList={this.state.messages} 
+          toggleCompose={this.toggleCompose}
+        />
+        {this.state.compose ? 
+          <Compose 
+            status={this.state.compose}/>
+            :""}
+        <Messages 
+          messageList={this.state.messages} 
+          toggleExpand={this.toggleExpand}
+          toggleSelect={this.toggleSelect}
+          toggleStarred={this.toggleStarred}
+        />
       </div>
     );
   }

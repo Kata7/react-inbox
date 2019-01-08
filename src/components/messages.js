@@ -1,7 +1,14 @@
 import React from 'react';
 
-function Messages ({messageList = [], toggleExpand}){
-  let messageDisplay = messageList.map(message => <Message id={message.id} content={message} key={`message ${message.id}`} toggleExpand={toggleExpand}/>)
+function Messages ({messageList = [], toggleExpand, toggleSelect, toggleStarred}){
+  let messageDisplay = messageList.map(message => 
+    <Message id={message.id} 
+      content={message} 
+      key={`message ${message.id}`} 
+      toggleExpand={toggleExpand} 
+      toggleSelect={toggleSelect}
+      toggleStarred={toggleStarred}
+    />)
 
   return (
     <div>
@@ -10,7 +17,7 @@ function Messages ({messageList = [], toggleExpand}){
   )
 }
 
-function Message ({content, toggleExpand}) {
+function Message ({content, toggleExpand, toggleSelect, toggleStarred}) {
   // content: body, id, labels[], subject, starred?, selected?, read?, expanded?
   let readStatus = content.read ? "read" : "unread"
   let selectedStatus = content.selected ? "selected" : ""
@@ -26,10 +33,10 @@ function Message ({content, toggleExpand}) {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              <input type="checkbox" />
+              <input type="checkbox" onClick={toggleSelect} id={`checkbox${content.id}`} checked={content.selected}/>
             </div>
             <div className="col-xs-2">
-              <i className={`star fa ${starStatus}`}></i>
+              <i className={`star fa ${starStatus}`} id={`star${content.id}`} onClick={toggleStarred}></i>
             </div>
           </div>
         </div>
