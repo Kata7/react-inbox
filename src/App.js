@@ -153,6 +153,9 @@ class App extends Component {
   deleteSelected() {
     let newState = this.state
     newState.messages = newState.messages.filter(message => !message.selected)
+    newState.messages.forEach((message, index) => {
+      message.id = index + 1
+    })
     this.setState(newState)
   }
 
