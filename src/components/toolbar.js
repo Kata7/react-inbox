@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead, markSelectedUnRead}) {
+function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead, markSelectedUnRead, giveSelectedLabel, removeSelectedLabel}) {
 
   const unreadCount = messageList.filter(message => message.read === false).length
   const messageCount = messageList.length
@@ -39,14 +39,14 @@ function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead,
 
         <button className="btn btn-default" onClick={markSelectedUnRead} disabled={buttonDisplay}>Mark As Unread</button>
 
-        <select className="form-control label-select" disabled={buttonDisplay}>
+        <select className="form-control label-select" disabled={buttonDisplay} onChange={giveSelectedLabel}>
           <option>Apply label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <select className="form-control label-select" disabled={buttonDisplay}>
+        <select className="form-control label-select" disabled={buttonDisplay} onChange={removeSelectedLabel}>
           <option>Remove label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>

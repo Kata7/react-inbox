@@ -16,6 +16,9 @@ class App extends Component {
     this.toggleStarred = this.toggleStarred.bind(this)
     this.markSelectedRead = this.markSelectedRead.bind(this)
     this.markSelectedUnRead = this.markSelectedUnRead.bind(this)
+    this.giveSelectedLabel = this.giveSelectedLabel.bind(this)
+    this.removeSelectedLabel = this.removeSelectedLabel.bind(this)
+
 
     this.state = {
       compose: false,
@@ -119,6 +122,21 @@ class App extends Component {
     this.setState(newState)
   }
 
+  giveSelectedLabel(e) {
+    let newLabel = e.target.value
+    let newState = this.state
+    newState.messages.forEach(message => {
+      if(message.selected && !message.labels.includes(newLabel)) {
+        message.labels.push(newLabel)
+      }
+    })
+    this.setState(newState)
+  }
+
+  removeSelectedLabel(e) {
+
+  }
+
 
   render() {
 
@@ -131,6 +149,8 @@ class App extends Component {
           toggleSelectAll={this.toggleSelectAll}
           markSelectedRead={this.markSelectedRead}
           markSelectedUnRead={this.markSelectedUnRead}
+          giveSelectedLabel={this.giveSelectedLabel}
+          removeSelectedLabel={this.removeSelectedLabel}
         />
         {this.state.compose ? 
           <Compose 
