@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Compose() {
+function Compose({addMessage}) {
 
   return (
     <form className="form-horizontal well">
@@ -25,7 +25,7 @@ function Compose() {
       </div>
 
       <div className="form-group">
-        <input type="submit" value="Send" className="btn btn-primary"></input>
+        <input type="submit" value="Send" className="btn btn-primary" onClick={addMessage}></input>
       </div>
     </form>
   )

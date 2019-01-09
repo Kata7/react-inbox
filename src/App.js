@@ -19,6 +19,7 @@ class App extends Component {
     this.giveSelectedLabel = this.giveSelectedLabel.bind(this)
     this.removeSelectedLabel = this.removeSelectedLabel.bind(this)
     this.deleteSelected = this.deleteSelected.bind(this)
+    this.addMessage = this.addMessage.bind(this)
 
 
     this.state = {
@@ -154,6 +155,27 @@ class App extends Component {
     this.setState(newState)
   }
 
+  addMessage(e) {
+    e.preventDefault()
+    console.log('yeet')
+    let body = document.getElementById('body')
+    let subject = document.getElementById('subject')
+    let newMessage = {
+      body: body.value,
+      expanded: false,
+      id: this.state.messages.length + 1,
+      labels: [],
+      read: false,
+      selected: false,
+      starred: false,
+      subject: subject.value
+    }
+    let newState = this.state
+    newState.messages.push(newMessage)
+    newState.compose = false
+    this.setState(newState)
+  }
+
 
   render() {
 
@@ -172,7 +194,8 @@ class App extends Component {
         />
         {this.state.compose ? 
           <Compose 
-            status={this.state.compose}/>
+            addMessage={this.addMessage}
+          />
             :""}
         <Messages 
           messageList={this.state.messages} 
