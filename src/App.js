@@ -62,7 +62,7 @@ class App extends Component {
   toggleExpand(e) {
     e.preventDefault()
     // id formatted as "subject7"
-    let index = e.target.id[7] - 1
+    let index = Number(e.target.id.slice(7)) - 1
     let newState = this.state
     newState.messages[index].expanded = !newState.messages[index].expanded
     newState.messages[index].read = true
@@ -90,7 +90,8 @@ class App extends Component {
 
   toggleSelect(e) {
     // id formatted as "checkbox8"
-    let index = e.target.id[8] - 1
+    console.log(e.target)
+    let index = Number(e.target.id.slice(8)) - 1
     let newState = this.state
     newState.messages[index].selected = !newState.messages[index].selected
     this.setState(newState)
@@ -98,7 +99,7 @@ class App extends Component {
 
   toggleStarred(e) {
     // id formatted as "star4"
-    let index = e.target.id[4] - 1
+    let index = Number(e.target.id.slice(4)) - 1
     let newState = this.state
     newState.messages[index].starred = !newState.messages[index].starred
     this.setState(newState)
