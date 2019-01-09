@@ -18,6 +18,7 @@ class App extends Component {
     this.markSelectedUnRead = this.markSelectedUnRead.bind(this)
     this.giveSelectedLabel = this.giveSelectedLabel.bind(this)
     this.removeSelectedLabel = this.removeSelectedLabel.bind(this)
+    this.deleteSelected = this.deleteSelected.bind(this)
 
 
     this.state = {
@@ -126,15 +127,31 @@ class App extends Component {
     let newLabel = e.target.value
     let newState = this.state
     newState.messages.forEach(message => {
-      if(message.selected && !message.labels.includes(newLabel)) {
+      if(message.selected && !message.labels.includes(newLabel) && newLabel !== "Apply label") {
         message.labels.push(newLabel)
       }
     })
     this.setState(newState)
+    e.target.value = "Apply label"
   }
 
   removeSelectedLabel(e) {
+    let removeLabel = e.target.value
+    let newState = this.state
+    newState.messages.forEach(message => {
+      if(message.selected) {
+        let newLabels = message.labels.filter(label => label !== removeLabel)
+        message.labels = newLabels
+      }
+    })
+    this.setState(newState)
+    e.target.value = "Remove label"
+  }
 
+  deleteSelected() {
+    let newState = this.state
+    newState.messages = newState.messages.filter(message => !message.selected)
+    this.setState(newState)
   }
 
 
@@ -151,6 +168,7 @@ class App extends Component {
           markSelectedUnRead={this.markSelectedUnRead}
           giveSelectedLabel={this.giveSelectedLabel}
           removeSelectedLabel={this.removeSelectedLabel}
+          deleteSelected={this.deleteSelected}
         />
         {this.state.compose ? 
           <Compose 

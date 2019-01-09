@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead, markSelectedUnRead, giveSelectedLabel, removeSelectedLabel}) {
+function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead, markSelectedUnRead, giveSelectedLabel, removeSelectedLabel, deleteSelected}) {
 
   const unreadCount = messageList.filter(message => message.read === false).length
   const messageCount = messageList.length
@@ -8,7 +8,7 @@ function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead,
   let selectionDisplay
   let buttonDisplay
 
-  if (messageCount === selectedCount) {
+  if (messageCount === selectedCount && messageCount !== 0) {
     selectionDisplay = "fa-check-square-o"
     buttonDisplay = false
   } else if (selectedCount > 0) {
@@ -53,7 +53,7 @@ function Toolbar({toggleCompose, messageList, toggleSelectAll, markSelectedRead,
           <option value="gschool">gschool</option>
         </select>
 
-        <button className="btn btn-default" disabled={buttonDisplay}>
+        <button className="btn btn-default" disabled={buttonDisplay} onClick={deleteSelected}>
           <i className="fa fa-trash-o"></i>
         </button>
       </div>
