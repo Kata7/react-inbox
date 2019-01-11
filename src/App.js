@@ -18,22 +18,19 @@ class App extends Component {
 
 
   getData() {
-    // pull data from server and save it to state
     if (this.state.fetched === false) {
-      console.log("getting data")
       const getUrl = "http://localhost:8082/api/messages"
       fetch(getUrl)
         .then(response => response.json())
         .then((respJson) => {
-
           for (let message in respJson) {
             let currentMessage = respJson[message]
-            currentMessage['selected'] = false
-            currentMessage['expanded'] = false
+            currentMessage["selected"] = false
+            currentMessage["expanded"] = false
           }
           this.setState({
             messages: respJson,
-            fetched: true
+            fetched: true,
           })
         })
     } else {
@@ -48,12 +45,19 @@ class App extends Component {
 
   toggleExpand = (e, id) => {
     e.preventDefault()
-    // id formatted as "subject7"
-    // let index = Number(e.target.id.slice(7)) - 1
-    let index = id - 1
     let newState = this.state
-    newState.messages[index].expanded = !newState.messages[index].expanded
-    newState.messages[index].read = true
+    newState.messages.forEach(message => {
+      if(message.id === id){
+        message.expanded = !message.expanded
+        message.read = true
+        let data = {
+          "messageIds": [id],
+          "command": "read",
+          "read": true
+        }
+        this.patch(data)
+      }
+    })
     this.setState(newState)
   }
 
@@ -77,17 +81,22 @@ class App extends Component {
   }
 
   toggleSelect = (id) => {
-    let index = id - 1
     let newState = this.state
-    newState.messages[index].selected = !newState.messages[index].selected
+    newState.messages.forEach(message => {
+      if(message.id === id){
+        message.selected = !message.selected
+      }
+    })
     this.setState(newState)
   }
 
   toggleStarred = (id) => {
-    let index = id - 1
     let newState = this.state
-    newState.messages[index].starred = !newState.messages[index].starred
-    console.log("index", index)
+    newState.messages.forEach(message => {
+      if(message.id === id){
+        message.starred = !message.starred
+      }
+    })
     let data = {
       "messageIds" : [id],
       "command": "star"
@@ -98,21 +107,35 @@ class App extends Component {
 
   markSelectedRead = () => {
     let newState = this.state
+    let messageArray = newState.messages.filter(message => message.selected).map(message => message.id)
     newState.messages.forEach(message => {
       if (message.selected) {
         message.read = true
       }
     })
+    let data = {
+      "messageIds": messageArray,
+      "command": "read",
+      "read": true
+    }
+    this.patch(data)
     this.setState(newState)
   }
 
   markSelectedUnRead = () => {
     let newState = this.state
+    let messageArray = newState.messages.filter(message => message.selected).map(message => message.id)
     newState.messages.forEach(message => {
       if (message.selected) {
         message.read = false
       }
     })
+    let data = {
+      "messageIds": messageArray,
+      "command": "read",
+      "read": false
+    }
+    this.patch(data)
     this.setState(newState)
   }
 
@@ -145,7 +168,6 @@ class App extends Component {
       }
     })
 
-    // Fetch request
     let messageArray = newState.messages.filter(message => message.selected).map(message => message.id)
     let data = {
       "messageIds": messageArray,
@@ -157,35 +179,59 @@ class App extends Component {
     e.target.value = "Remove label"
   }
 
-
-  // Rework this...after deletion Id's are fucked
   deleteSelected = () => {
     let newState = this.state
+    let messageArray = newState.messages.filter(message => message.selected).map(message => message.id)
     newState.messages = newState.messages.filter(message => !message.selected)
-    // newState.messages.forEach((message, index) => {
-    //   message.id = index + 1
-    // })
+    let data = {
+      "messageIds": messageArray,
+      "command": "delete"
+    }
+    this.patch(data)
     this.setState(newState)
   }
 
   addMessage = (e) => {
     e.preventDefault()
-    console.log('yeet')
+    let newState = this.state
     let body = document.getElementById('body')
     let subject = document.getElementById('subject')
+
+
+    let maxID = 1
+    newState.messages.forEach(message => {
+      if (message.id > maxID) {
+        maxID = message.id
+      }
+    })
+    maxID += 1
+
     let newMessage = {
       body: body.value,
       expanded: false,
-      id: this.state.messages.length + 1,
+      id: maxID,
       labels: [],
       read: false,
       selected: false,
       starred: false,
       subject: subject.value
     }
-    let newState = this.state
     newState.messages.push(newMessage)
     newState.compose = false
+
+    const url = 'http://localhost:8082/api/messages';
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(newMessage),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        console.log('Success:', JSON.stringify(response))
+      })
+      .catch(error => console.error('Error:', error))
+
     this.setState(newState)
   }
 
@@ -204,9 +250,6 @@ class App extends Component {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
-      .then(response => {
-        // console.log('Success:', JSON.stringify(response))
-      })
       .catch(error => console.error('Error:', error))
   }
 
