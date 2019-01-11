@@ -33,16 +33,16 @@ function Message ({content, toggleExpand, toggleSelect, toggleStarred}) {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              <input type="checkbox" onChange={toggleSelect} id={`checkbox${content.id}`} checked={content.selected}/>
+              <input type="checkbox" onChange={() => toggleSelect(content.id)} checked={content.selected}/>
             </div>
             <div className="col-xs-2">
-              <i className={`star fa ${starStatus}`} id={`star${content.id}`} onClick={toggleStarred}></i>
+              <i className={`star fa ${starStatus}`} onClick={() => toggleStarred(content.id)}></i>
             </div>
           </div>
         </div>
         <div className="col-xs-11">
           {tagDisplay}
-          <a href="/#" id={`subject${content.id}`} onClick={toggleExpand}>{content.subject}</a>
+          <a href="/#" onClick={(e) => toggleExpand(e, content.id)}>{content.subject}</a>
         </div>
       </div>
       {expandMessage}
