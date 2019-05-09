@@ -19,7 +19,8 @@ class App extends Component {
 
   getData() {
     if (this.state.fetched === false) {
-      const getUrl = "http://localhost:8082/api/messages"
+      // const getUrl = "http://localhost:8082/api/messages"
+      const getUrl = "https://amoran-inbox.herokuapp.com/api/messages"
       fetch(getUrl)
         .then(response => response.json())
         .then((respJson) => {
@@ -219,7 +220,8 @@ class App extends Component {
     newState.messages.push(newMessage)
     newState.compose = false
 
-    const url = 'http://localhost:8082/api/messages';
+    // const url = 'http://localhost:8082/api/messages';
+    const url = "https://amoran-inbox.herokuapp.com/api/messages"
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(newMessage),
@@ -236,7 +238,8 @@ class App extends Component {
   }
 
   patch = (data) => {
-    const url = 'http://localhost:8082/api/messages';
+    // const url = 'http://localhost:8082/api/messages';
+    const url = "https://amoran-inbox.herokuapp.com/api/messages"
     // var data = {
     //   "messageIds": messageArray,
     //   "command": "removeLabel",
